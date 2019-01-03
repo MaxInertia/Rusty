@@ -74,37 +74,42 @@ impl StateMachine {
 
 }
 
-#[test]
-fn sm_include_post_condition_1() {
-    let mut sm = StateMachine::new();
-    sm.include("abc");
-    assert!(sm.accepts("abc"));
-}
+#[cfg(test)]
+mod tests {
+    use super::StateMachine;
 
-#[test]
-fn sm_include_and_no_accept() {
-    let mut sm = StateMachine::new();
-    sm.include("abc");
-    assert_eq!(sm.accepts(""), false, "word: \"\"");
-    assert_eq!(sm.accepts("bc"), false, "word: \"bc\"");
-    assert_eq!(sm.accepts("abz"), false, "word: \"abz\"");
-    assert_eq!(sm.accepts("abcd"), false, "word: \"abcd\"");
-    assert_eq!(sm.accepts("Thor"), false, "word: \"Thor\"");
-}
+    #[test]
+    fn sm_include_post_condition_1() {
+        let mut sm = StateMachine::new();
+        sm.include("abc");
+        assert!(sm.accepts("abc"));
+    }
 
-#[test]
-fn sm_include_post_condition_2() {
-    let mut sm = StateMachine::new();
-    sm.include("abc");
-    assert!(sm.accepts("abc"));
-    assert_eq!(sm.accepts("a"), false, "expected fail on word: \"a\"");
+    #[test]
+    fn sm_include_and_no_accept() {
+        let mut sm = StateMachine::new();
+        sm.include("abc");
+        assert_eq!(sm.accepts(""), false, "word: \"\"");
+        assert_eq!(sm.accepts("bc"), false, "word: \"bc\"");
+        assert_eq!(sm.accepts("abz"), false, "word: \"abz\"");
+        assert_eq!(sm.accepts("abcd"), false, "word: \"abcd\"");
+        assert_eq!(sm.accepts("Thor"), false, "word: \"Thor\"");
+    }
 
-    sm.include("a");
-    assert!(sm.accepts("abc"));
-    assert_eq!(sm.accepts("a"), true, "expected acceptance of word: \"a\"");
+    #[test]
+    fn sm_include_post_condition_2() {
+        let mut sm = StateMachine::new();
+        sm.include("abc");
+        assert!(sm.accepts("abc"));
+        assert_eq!(sm.accepts("a"), false, "expected fail on word: \"a\"");
 
-    sm.include("Loki");
-    assert!(sm.accepts("abc"));
-    assert_eq!(sm.accepts("a"), true, "expected acceptance of word: \"a\"");
-    assert_eq!(sm.accepts("Loki"), true, "expected acceptance of word: \"Loki\"");
+        sm.include("a");
+        assert!(sm.accepts("abc"));
+        assert_eq!(sm.accepts("a"), true, "expected acceptance of word: \"a\"");
+
+        sm.include("Loki");
+        assert!(sm.accepts("abc"));
+        assert_eq!(sm.accepts("a"), true, "expected acceptance of word: \"a\"");
+        assert_eq!(sm.accepts("Loki"), true, "expected acceptance of word: \"Loki\"");
+    }
 }
