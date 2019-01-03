@@ -1,5 +1,5 @@
 [package]
-name = "statemachine"
+name = "rusty"
 version = "0.1.0"
 authors = ["Dorian Thiessen (dbt908) <dorian.thiessen@usask.ca>"]
 edition = "2018"
