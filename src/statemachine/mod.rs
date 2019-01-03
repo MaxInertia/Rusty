@@ -2,15 +2,17 @@ use std::collections::HashMap;
 
 // Deterministic Finite Automata (DFA)
 // also known as a Finite-state Machine
+pub type StateMachine = State;
+
 #[derive(Debug)]
-pub struct StateMachine {
-    transitions: HashMap<char, StateMachine>,
+pub struct State {
+    transitions: HashMap<char, State>,
     terminal: bool,
 }
 
 impl StateMachine {
     pub fn new() -> Self {
-        StateMachine {
+        State {
             transitions: HashMap::new(),
             terminal: false,
         }
@@ -40,6 +42,7 @@ impl StateMachine {
             let remaining = &word[1..];
 
             match self.trans_mut().get_mut(&current_char) {
+                // Transition from self on current_char exists.
                 Some(ref mut state) => {
                     if remaining.len() == 0 {
                         state.terminal = true;
@@ -47,13 +50,12 @@ impl StateMachine {
                         state.include(remaining)
                     }
                 },
+                // Transition from self on current_char must be created.
                 None => {
-                    let mut new_state = StateMachine {
+                    let mut new_state = State {
                         transitions: HashMap::new(),
                         terminal: remaining.len() == 0,
                     };
-
-                    println!("At \"{}\", rem.len = {}. new_state.terminal = {}", current_char, remaining.len(), new_state.terminal);
 
                     new_state.include(remaining);
                     self.trans_mut().insert(current_char, new_state);
@@ -61,17 +63,18 @@ impl StateMachine {
             }
         }
     }
+}
 
+impl State {
     // trans is a getter for the state transitions that is immutable.
-    fn trans(&self) -> &HashMap<char, StateMachine> {
+    fn trans(&self) -> &HashMap<char, State> {
         &self.transitions
     }
 
     // trans_mut is a getter for the state transitions that allows mutation.
-    fn trans_mut(&mut self) -> &mut HashMap<char, StateMachine> {
+    fn trans_mut(&mut self) -> &mut HashMap<char, State> {
         &mut self.transitions
     }
-
 }
 
 #[cfg(test)]
