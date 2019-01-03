@@ -8,14 +8,14 @@ pub struct StateMachine {
     terminal: bool,
 }
 
-pub fn new_state_machine() -> StateMachine {
-    StateMachine {
-        transitions: HashMap::new(),
-        terminal: false,
-    }
-}
-
 impl StateMachine {
+    pub fn new() -> Self {
+        StateMachine {
+            transitions: HashMap::new(),
+            terminal: false,
+        }
+    }
+
     // accepts checks if a word is accepted by this state machine.
     // returns true if word is accepted, else false.
     pub fn accepts(&self, word: &str) -> bool {
@@ -76,14 +76,14 @@ impl StateMachine {
 
 #[test]
 fn sm_include_post_condition_1() {
-    let mut sm = new_state_machine();
+    let mut sm = StateMachine::new();
     sm.include("abc");
     assert!(sm.accepts("abc"));
 }
 
 #[test]
 fn sm_include_and_no_accept() {
-    let mut sm = new_state_machine();
+    let mut sm = StateMachine::new();
     sm.include("abc");
     assert_eq!(sm.accepts(""), false, "word: \"\"");
     assert_eq!(sm.accepts("bc"), false, "word: \"bc\"");
@@ -94,7 +94,7 @@ fn sm_include_and_no_accept() {
 
 #[test]
 fn sm_include_post_condition_2() {
-    let mut sm = new_state_machine();
+    let mut sm = StateMachine::new();
     sm.include("abc");
     assert!(sm.accepts("abc"));
     assert_eq!(sm.accepts("a"), false, "expected fail on word: \"a\"");
