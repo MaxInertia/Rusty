@@ -38,27 +38,29 @@ impl StateMachine {
     //      - All accepted words prior to applying `include` are accepted after
     //      - This now accepts the input word. (`self.accepts(word)` will return true).
     pub fn include(&mut self, word: &str) {
-        if let Some(current_char) = word.chars().nth(0) {
-            let remaining = &word[1..];
+        match word.chars().nth(0) {
+            // Reached end of word, make current state terminal.
+            None => self.terminal = true,
 
-            match self.trans_mut().get_mut(&current_char) {
-                // Transition from self on current_char exists.
-                Some(ref mut state) => {
-                    if remaining.len() == 0 {
-                        state.terminal = true;
-                    } else {
+            // Characters remaining in word.
+            Some(current_char) => {
+                let remaining = &word[1..];
+
+                match self.trans_mut().get_mut(&current_char) {
+                    // Transition from self on current_char exists.
+                    Some(ref mut state) => {
                         state.include(remaining)
-                    }
-                },
-                // Transition from self on current_char must be created.
-                None => {
-                    let mut new_state = State {
-                        transitions: HashMap::new(),
-                        terminal: remaining.len() == 0,
-                    };
+                    },
+                    // Transition from self on current_char must be created.
+                    None => {
+                        let mut new_state = State {
+                            transitions: HashMap::new(),
+                            terminal: remaining.len() == 0,
+                        };
 
-                    new_state.include(remaining);
-                    self.trans_mut().insert(current_char, new_state);
+                        new_state.include(remaining);
+                        self.trans_mut().insert(current_char, new_state);
+                    }
                 }
             }
         }
@@ -114,5 +116,12 @@ mod tests {
         assert!(sm.accepts("abc"));
         assert_eq!(sm.accepts("a"), true, "expected acceptance of word: \"a\"");
         assert_eq!(sm.accepts("Loki"), true, "expected acceptance of word: \"Loki\"");
+    }
+
+    #[test]
+    fn sm_include_empty_string() {
+        let mut sm = StateMachine::new();
+        sm.include("");
+        assert!(sm.accepts(""));
     }
 }
