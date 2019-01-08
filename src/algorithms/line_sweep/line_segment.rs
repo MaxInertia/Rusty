@@ -1,13 +1,12 @@
 use std::cmp::Ordering;
 
-// Point in n-dimensional space
+// 2D Point
 pub type Point = [i32; 2];
 
 pub const X: usize = 0;
 pub const Y: usize = 1;
 
-// Line in n-dimensional space
-//type Line = [Point; 2];
+// 2D Line
 #[derive(Debug, Eq)]
 pub struct LineSegment {
     endpoints: [Point; 2],
