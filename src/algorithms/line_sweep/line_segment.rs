@@ -15,7 +15,7 @@ pub struct LineSegment {
 impl LineSegment {
     pub fn new(a: (i32, i32), b: (i32, i32)) -> LineSegment {
         LineSegment {
-            endpoints: [[a.0, a.1], [b.0, b.1]]
+            endpoints: [[a.0, a.1], [b.0, b.1]],
         }
     }
 
@@ -60,7 +60,6 @@ impl PartialEq for LineSegment {
     }
 }
 
-
 impl PartialOrd for LineSegment {
     fn partial_cmp(&self, other: &LineSegment) -> Option<Ordering> {
         Some(self.cmp(other))
@@ -79,9 +78,9 @@ fn getters() {
 #[test]
 fn ordering() {
     let new_ls = LineSegment::new;
-    let mut zero = new_ls((0, 0), (0, 0));
+    let zero = new_ls((0, 0), (0, 0));
     {
-        let mut p2 = new_ls((0, 0), (0, 0));
+        let p2 = new_ls((0, 0), (0, 0));
         assert_eq!(zero, p2);
     }
 

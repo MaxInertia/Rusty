@@ -1,6 +1,10 @@
 use std::collections::BinaryHeap;
 
-use super::line_sweep::LineSegment;
+pub mod event;
+pub mod line_segment;
+
+use line_segment::LineSegment;
+use line_segment::Point;
 
 // Intersection: two lines and the point they overlap
 struct Intersection {
@@ -10,7 +14,7 @@ struct Intersection {
 
 fn find_all_intersections(mut lines: BinaryHeap<LineSegment>) -> Vec<Intersection> {
     if lines.is_empty() {
-        return vec![]
+        return vec![];
     }
 
     //use events::Event::*;
@@ -19,6 +23,10 @@ fn find_all_intersections(mut lines: BinaryHeap<LineSegment>) -> Vec<Intersectio
     //es.append(Upper(lines.pop()));
     //es.append(Upper(lines.pop()));
 
+    unimplemented!() // TODO: Implement
+}
+
+fn find_intersection(a: LineSegment, b: LineSegment) -> Option<Intersection> {
     unimplemented!() // TODO: Implement
 }
 
@@ -39,9 +47,8 @@ fn one_line() {
     assert!(intersections.is_empty())
 }
 
-
 #[test]
-fn two_lines () {
+fn two_lines() {
     //let mut lines = BTreeSet::new();
     let mut lines = BinaryHeap::new();
     lines.push(LineSegment::new((0, 1), (0, 2)));
@@ -57,7 +64,7 @@ fn two_lines_one_intersections() {
     lines.push(LineSegment::new((2, 2), (-2, -2)));
     lines.push(LineSegment::new((-2, 2), (2, -2)));
     let intersections = find_all_intersections(lines);
-    assert!(! intersections.is_empty());
+    assert!(!intersections.is_empty());
     let zero: [i32; 2] = [0, 0];
     assert_eq!(intersections[0].overlap, zero);
 }

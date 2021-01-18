@@ -1,11 +1,11 @@
+use super::line_segment::*;
 use std::cmp::Ordering;
-use line_segment::*;
 
 #[derive(Debug, Eq)]
 pub enum Event {
-    UpperPoint(LineSegment),                        // Top point on a LineSegment
-    CrossPoint(Point, LineSegment, LineSegment),    // Intersection between two LineSegments
-    LowerPoint(LineSegment),                        // Bottom point on a LineSegment
+    UpperPoint(LineSegment),                     // Top point on a LineSegment
+    CrossPoint(Point, LineSegment, LineSegment), // Intersection between two LineSegments
+    LowerPoint(LineSegment),                     // Bottom point on a LineSegment
 }
 
 impl Event {
@@ -39,7 +39,6 @@ impl PartialEq for Event {
         self.cmp(other) == Ordering::Equal
     }
 }
-
 
 impl PartialOrd for Event {
     fn partial_cmp(&self, other: &Event) -> Option<Ordering> {
