@@ -1,0 +1,7 @@
+[package]
+name = "LearningRust"
+version = "0.1.0"
+authors = ["Dorian Thiessen (dbt908) <dorian.thiessen@usask.ca>"]
+edition = "2018"
+
+[dependencies]
